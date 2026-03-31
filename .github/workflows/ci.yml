@@ -68,6 +68,25 @@ jobs:
       - name: Build
         run: dotnet build primp.net.sln --no-restore -c Release
 
+      - name: Stage native library for integration tests (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          mkdir -p tests/Primp.Tests.Integration/bin/Release/net10.0
+          cp artifacts/native/native-linux-x64/libprimp_ffi.so tests/Primp.Tests.Integration/bin/Release/net10.0/
+
+      - name: Stage native library for integration tests (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          mkdir -p tests/Primp.Tests.Integration/bin/Release/net10.0
+          cp artifacts/native/native-osx-arm64/libprimp_ffi.dylib tests/Primp.Tests.Integration/bin/Release/net10.0/
+
+      - name: Stage native library for integration tests (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path tests/Primp.Tests.Integration/bin/Release/net10.0
+          Copy-Item artifacts/native/native-win-x64/primp_ffi.dll tests/Primp.Tests.Integration/bin/Release/net10.0/
+
       - name: Unit Tests
         run: dotnet test tests/Primp.Tests.Unit/Primp.Tests.Unit.csproj --no-build -c Release --logger "trx;LogFileName=unit.trx"
 
