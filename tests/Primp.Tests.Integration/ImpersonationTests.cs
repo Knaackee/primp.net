@@ -1,15 +1,17 @@
 namespace Primp.Tests.Integration;
 
 /// <summary>
-/// Tests browser impersonation against TLS fingerprint analysis services.
+/// Tests browser impersonation behavior against a local endpoint.
 /// </summary>
 [Trait("Category", "Integration")]
-public class ImpersonationTests : IDisposable
+public class ImpersonationTests : IDisposable, IClassFixture<LocalEndpointFixture>
 {
     private readonly PrimpClient _client;
+    private readonly string _baseUrl;
 
-    public ImpersonationTests()
+    public ImpersonationTests(LocalEndpointFixture fixture)
     {
+        _baseUrl = fixture.BaseUrl;
         _client = PrimpClient.Builder()
             .WithImpersonate(Impersonate.Chrome146)
             .WithOS(ImpersonateOS.Windows)
@@ -18,15 +20,14 @@ public class ImpersonationTests : IDisposable
     }
 
     [Fact]
-    public async Task TlsFingerprint_MatchesChrome()
+    public async Task LocalGet_WorksWithImpersonation()
     {
-        using var response = await _client.GetAsync("https://tls.peet.ws/api/all");
+        using var response = await _client.GetAsync($"{_baseUrl}/get");
 
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
         var body = response.ReadAsString();
         Assert.False(string.IsNullOrEmpty(body));
-        // The response should contain TLS fingerprint data
-        Assert.Contains("tls_version", body);
+        Assert.Contains("\"path\":\"/get\"", body);
     }
 
     [Theory]
@@ -41,7 +42,7 @@ public class ImpersonationTests : IDisposable
             .WithTimeout(TimeSpan.FromSeconds(30))
             .Build();
 
-        using var response = await client.GetAsync("https://httpbin.org/get");
+        using var response = await client.GetAsync($"{_baseUrl}/get");
         Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
     }
 

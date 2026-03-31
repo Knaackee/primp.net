@@ -9,11 +9,13 @@ using var client = PrimpClient.Builder()
     .FollowRedirects(true)
     .Build();
 
+const string localBaseUrl = "http://127.0.0.1:18080";
+
 Console.WriteLine($"Primp FFI version: {PrimpClient.NativeVersion}");
 
 // GET request
 Console.WriteLine("\n--- GET Request ---");
-using (var response = await client.GetAsync("https://httpbin.org/get"))
+using (var response = await client.GetAsync($"{localBaseUrl}/get"))
 {
     Console.WriteLine($"Status: {response.StatusCode}");
     Console.WriteLine($"URL: {response.Url}");
@@ -24,7 +26,7 @@ using (var response = await client.GetAsync("https://httpbin.org/get"))
 // POST request with JSON
 Console.WriteLine("\n--- POST Request ---");
 using (var response = await client.PostAsync(
-    "https://httpbin.org/post",
+    $"{localBaseUrl}/post",
     """{"message": "Hello from Primp.NET!"}""",
     "application/json"))
 {
@@ -52,7 +54,7 @@ foreach (var browser in browsers)
         .WithTimeout(TimeSpan.FromSeconds(15))
         .Build();
 
-    using var response = await browserClient.GetAsync("https://httpbin.org/get");
+    using var response = await browserClient.GetAsync($"{localBaseUrl}/get");
     Console.WriteLine($"  {browser}: {response.StatusCode}");
 }
 

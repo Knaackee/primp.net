@@ -1,0 +1,15 @@
+﻿{
+  "client": "original-primp-rust",
+  "iterations": 20,
+  "warmup": 3,
+  "get": {
+    "avg_ms": 3.688646750000001,
+    "min_ms": 2.691039,
+    "max_ms": 5.474832
+  },
+  "post_json": {
+    "avg_ms": 3.70414575,
+    "min_ms": 3.052241,
+    "max_ms": 4.5927
+  }
+}

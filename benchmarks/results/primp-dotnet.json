@@ -1,0 +1,15 @@
+{
+  "Client": "primp.net",
+  "Iterations": 20,
+  "Warmup": 3,
+  "Get": {
+    "AvgMs": 3.13326,
+    "MinMs": 2.2834,
+    "MaxMs": 6.5584
+  },
+  "PostJson": {
+    "AvgMs": 2.997255,
+    "MinMs": 2.6136,
+    "MaxMs": 3.3951
+  }
+}

@@ -48,8 +48,10 @@ COPY src/Primp/Primp.csproj src/Primp/
 COPY src/Primp.Extensions/Primp.Extensions.csproj src/Primp.Extensions/
 COPY tests/Primp.Tests.Unit/Primp.Tests.Unit.csproj tests/Primp.Tests.Unit/
 COPY tests/Primp.Tests.Integration/Primp.Tests.Integration.csproj tests/Primp.Tests.Integration/
+COPY tests/Primp.Tests.Cli.Integration/Primp.Tests.Cli.Integration.csproj tests/Primp.Tests.Cli.Integration/
 COPY benchmarks/Primp.Benchmarks/Primp.Benchmarks.csproj benchmarks/Primp.Benchmarks/
 COPY examples/Primp.Example/Primp.Example.csproj examples/Primp.Example/
+COPY examples/dotnet-cli/Primp.DotnetCli.csproj examples/dotnet-cli/
 COPY README.md ./
 
 RUN dotnet restore primp.net.sln
@@ -81,6 +83,10 @@ RUN dotnet test tests/Primp.Tests.Unit/Primp.Tests.Unit.csproj -c Release --no-b
 # Run integration tests (real HTTP requests from container)
 RUN dotnet test tests/Primp.Tests.Integration/Primp.Tests.Integration.csproj -c Release --no-build --logger "console;verbosity=normal" \
     || echo "Integration tests skipped (may require network)"
+
+# Run CLI integration tests
+RUN dotnet test tests/Primp.Tests.Cli.Integration/Primp.Tests.Cli.Integration.csproj -c Release --no-build --logger "console;verbosity=normal" \
+    || echo "CLI integration tests skipped (may require network)"
 
 # ============================================================================
 # Stage 3: Output artifacts

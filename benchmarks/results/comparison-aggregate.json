@@ -1,0 +1,57 @@
+﻿{
+    "runs":  [
+                 {
+                     "Run":  "comparison-summary.run1",
+                     "DotnetGet":  3.2155100000000005,
+                     "RustGet":  3.4740507500000009,
+                     "DotnetPost":  2.9962999999999997,
+                     "RustPost":  3.4831356000000007,
+                     "DeltaGet":  -7.44,
+                     "DeltaPost":  -13.98
+                 },
+                 {
+                     "Run":  "comparison-summary.run2",
+                     "DotnetGet":  3.284435,
+                     "RustGet":  4.4519655999999994,
+                     "DotnetPost":  2.752165,
+                     "RustPost":  3.71017205,
+                     "DeltaGet":  -26.23,
+                     "DeltaPost":  -25.82
+                 },
+                 {
+                     "Run":  "comparison-summary.run3",
+                     "DotnetGet":  3.13326,
+                     "RustGet":  3.6886467500000011,
+                     "DotnetPost":  2.997255,
+                     "RustPost":  3.70414575,
+                     "DeltaGet":  -15.06,
+                     "DeltaPost":  -19.08
+                 }
+             ],
+    "stats":  {
+                  "dotnetGet":  {
+                                    "median":  3.2155,
+                                    "p95":  3.2775
+                                },
+                  "rustGet":  {
+                                  "median":  3.6886,
+                                  "p95":  4.3756
+                              },
+                  "dotnetPost":  {
+                                     "median":  2.9963,
+                                     "p95":  2.9972
+                                 },
+                  "rustPost":  {
+                                   "median":  3.7041,
+                                   "p95":  3.7096
+                               },
+                  "deltaGetPct":  {
+                                      "median":  -15.06,
+                                      "p95":  -8.2
+                                  },
+                  "deltaPostPct":  {
+                                       "median":  -19.08,
+                                       "p95":  -14.49
+                                   }
+              }
+}

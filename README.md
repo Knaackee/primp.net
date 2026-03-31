@@ -47,13 +47,13 @@ using var client = PrimpClient.Builder()
     .Build();
 
 // GET request
-using var response = await client.GetAsync("https://httpbin.org/get");
+using var response = await client.GetAsync("http://127.0.0.1:18080/get");
 Console.WriteLine($"Status: {response.StatusCode}");
 Console.WriteLine(response.ReadAsString());
 
 // POST request with JSON
 using var postResponse = await client.PostAsync(
-    "https://httpbin.org/post",
+    "http://127.0.0.1:18080/post",
     """{"key": "value"}""",
     "application/json");
 ```
@@ -171,12 +171,67 @@ dotnet test tests/Primp.Tests.Unit
 
 # Integration tests (requires native library)
 dotnet test tests/Primp.Tests.Integration
+
+# CLI integration tests
+dotnet test tests/Primp.Tests.Cli.Integration
 ```
 
 ### Run benchmarks
 
 ```bash
 dotnet run --project benchmarks/Primp.Benchmarks -c Release
+```
+
+Note: Benchmarks use `PRIMP_BENCH_BASE_URL` and default to `http://127.0.0.1:18080`.
+
+### Compare performance vs original primp
+
+```powershell
+./scripts/compare-performance.ps1 -Iterations 20 -Warmup 3 -UseDockerForRust
+```
+
+```bash
+./scripts/compare-performance.sh 20 3
+```
+
+Artifacts are written to:
+
+- `benchmarks/results/primp-dotnet.json`
+- `benchmarks/results/primp-original-rust.json`
+- `benchmarks/results/comparison-summary.json`
+- `benchmarks/results/comparison-aggregate.json`
+
+### Benchmark comparison (2026-03-31, 3 local runs)
+
+Environment:
+
+- primp.net measured in `mcr.microsoft.com/dotnet/sdk:10.0-preview`
+- original primp measured in `rust:1-bookworm`
+- workload: `GET /get` and `POST /post` against a local endpoint (`mendhak/http-https-echo`)
+- warmup: `3`, iterations: `20`, repeated runs: `3`
+
+| Scenario | primp.net median avg (ms) | primp.net p95 avg (ms) | original median avg (ms) | original p95 avg (ms) | delta median | delta p95 |
+|---|---:|---:|---:|---:|---:|---:|
+| GET local /get | 3.22 | 3.28 | 3.69 | 4.38 | -15.06% | -8.20% |
+| POST local /post (JSON) | 3.00 | 3.00 | 3.70 | 3.71 | -19.08% | -14.49% |
+
+Interpretation:
+
+- Across 3 local runs, primp.net stays consistently faster on both GET and POST in this setup.
+- The previous ~60% gap disappeared after removing internet latency from the measurement path.
+- Re-run with the scripts above before release decisions; local endpoint + container scheduling can still fluctuate.
+
+## .NET CLI Example
+
+Small CLI app with common operations lives in `examples/dotnet-cli`.
+
+```bash
+dotnet run --project examples/dotnet-cli -- help
+dotnet run --project examples/dotnet-cli -- version
+dotnet run --project examples/dotnet-cli -- get http://127.0.0.1:18080/get
+dotnet run --project examples/dotnet-cli -- post http://127.0.0.1:18080/post '{"hello":"world"}'
+dotnet run --project examples/dotnet-cli -- headers http://127.0.0.1:18080/get
+dotnet run --project examples/dotnet-cli -- tls
 ```
 
 ## Platforms

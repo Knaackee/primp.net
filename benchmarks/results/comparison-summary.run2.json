@@ -1,0 +1,38 @@
+﻿{
+    "iterations":  20,
+    "warmup":  3,
+    "dotnet":  {
+                   "Client":  "primp.net",
+                   "Iterations":  20,
+                   "Warmup":  3,
+                   "Get":  {
+                               "AvgMs":  3.2844349999999998,
+                               "MinMs":  1.6537,
+                               "MaxMs":  6.0375
+                           },
+                   "PostJson":  {
+                                    "AvgMs":  2.7521649999999998,
+                                    "MinMs":  1.318,
+                                    "MaxMs":  3.7364
+                                }
+               },
+    "originalRust":  {
+                         "client":  "original-primp-rust",
+                         "iterations":  20,
+                         "warmup":  3,
+                         "get":  {
+                                     "avg_ms":  4.451965599999999,
+                                     "min_ms":  3.530539,
+                                     "max_ms":  6.278346
+                                 },
+                         "post_json":  {
+                                           "avg_ms":  3.7101720499999997,
+                                           "min_ms":  2.0817,
+                                           "max_ms":  4.724386
+                                       }
+                     },
+    "deltaPercent":  {
+                         "getAvgMs":  -26.23,
+                         "postAvgMs":  -25.82
+                     }
+}
