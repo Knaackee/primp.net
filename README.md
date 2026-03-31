@@ -217,9 +217,7 @@ Environment:
 
 Interpretation:
 
-- Across 3 local runs, primp.net stays consistently faster on both GET and POST in this setup.
-- The previous ~60% gap disappeared after removing internet latency from the measurement path.
-- Re-run with the scripts above before release decisions; local endpoint + container scheduling can still fluctuate.
+- Across 3 local runs, primp.net stays consistently faster on both GET and POST in **this setup**.
 
 ## .NET CLI Example
 
