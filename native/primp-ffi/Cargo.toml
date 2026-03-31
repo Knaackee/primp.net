@@ -1,0 +1,27 @@
+[package]
+name = "primp-ffi"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.84"
+description = "C-FFI bridge for the primp HTTP client with browser impersonation"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+primp = { git = "https://github.com/deedy5/primp", branch = "main" }
+tokio = { version = "1", features = ["rt-multi-thread"] }
+serde_json = "1"
+
+[patch.crates-io]
+hyper = { git = "https://github.com/deedy5/primp", branch = "main" }
+hyper-util = { git = "https://github.com/deedy5/primp", branch = "main" }
+h2 = { git = "https://github.com/deedy5/primp", branch = "main" }
+reqwest = { git = "https://github.com/deedy5/primp", branch = "main" }
+rustls = { git = "https://github.com/deedy5/primp", branch = "main" }
+
+[profile.release]
+lto = true
+strip = true
+codegen-units = 1

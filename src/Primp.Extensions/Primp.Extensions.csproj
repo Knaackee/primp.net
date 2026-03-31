@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <PackageId>Primp.Extensions</PackageId>
+    <Title>Primp.Extensions</Title>
+    <Description>Dependency injection and configuration extensions for the Primp HTTP client.</Description>
+    <Authors>Denis Knaack</Authors>
+    <PackageTags>primp;http;client;impersonate;dependency-injection;extensions</PackageTags>
+    <PackageProjectUrl>https://github.com/Knaackee/primp.net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Knaackee/primp.net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" Link="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Primp\Primp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,52 @@
+name: Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'benchmarks/**'
+      - 'src/Primp/**'
+      - 'native/primp-ffi/**'
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    uses: ./.github/workflows/native-build.yml
+
+  benchmark:
+    needs: native
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Download native artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: native-linux-x64
+          path: artifacts/native/linux-x64
+
+      - name: Stage native library
+        run: |
+          mkdir -p src/Primp/runtimes/linux-x64/native
+          cp artifacts/native/linux-x64/libprimp_ffi.so src/Primp/runtimes/linux-x64/native/
+
+      - name: Build benchmarks
+        run: dotnet build benchmarks/Primp.Benchmarks/Primp.Benchmarks.csproj -c Release
+
+      - name: Run benchmarks
+        run: dotnet run --project benchmarks/Primp.Benchmarks/Primp.Benchmarks.csproj -c Release -- --filter '*' --exporters json
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: BenchmarkDotNet.Artifacts/

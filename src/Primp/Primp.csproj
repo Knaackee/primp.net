@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageId>Primp</PackageId>
+    <Title>Primp</Title>
+    <Description>.NET bridge for the primp HTTP client with browser impersonation. Wraps the original Rust library via P/Invoke for accurate TLS/HTTP2 fingerprinting.</Description>
+    <Authors>Denis Knaack</Authors>
+    <PackageTags>primp;http;client;impersonate;tls;fingerprint;browser;dotnet</PackageTags>
+    <PackageProjectUrl>https://github.com/Knaackee/primp.net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Knaackee/primp.net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" Link="README.md" />
+  </ItemGroup>
+
+  <!-- Native library runtime assets (populated by build scripts / Docker) -->
+  <ItemGroup Condition="Exists('runtimes')">
+    <Content Include="runtimes/**/*" Pack="true" PackagePath="runtimes" CopyToOutputDirectory="PreserveNewest" Link="runtimes/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="9.0.4" />
+  </ItemGroup>
+
+</Project>

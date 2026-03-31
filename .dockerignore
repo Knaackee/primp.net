@@ -1,0 +1,12 @@
+**/.git
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/target
+**/node_modules
+**/*.user
+**/*.suo
+**/BenchmarkDotNet.Artifacts
+**/TestResults
+.github
